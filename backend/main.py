@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 import pandas as pd
 import joblib
 import os
@@ -17,6 +17,15 @@ from datetime import datetime, timedelta
 load_dotenv()
 
 app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello, world!"}
+
+@app.head("/")
+def head_root():
+    return Response(status_code=200)
+
 
 # Add CORS middleware
 app.add_middleware(
@@ -671,7 +680,3 @@ async def get_location_alerts(location: str):
         "location": location,
         "alerts": alerts
     }
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
