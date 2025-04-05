@@ -1,138 +1,3 @@
-
-// import React, { useState } from 'react';
-// import { MapPin, AlertTriangle, Sun, Navigation } from 'lucide-react';
-// import ChatComponent from './ChatComponent';
-
-// interface WeatherData {
-//   temperature: number;
-//   conditions: string;
-//   windSpeed: number;
-// }
-
-// interface FishingZone {
-//   name: string;
-//   distance: string;
-//   conditions: string;
-//   borderProximity: number;
-// }
-
-// function App() {
-//   const [location, setLocation] = useState('');
-//   const [showZones, setShowZones] = useState(false);
-//   const [showBorderAlert, setShowBorderAlert] = useState(false);
-//   const [borderDistance, setBorderDistance] = useState(0);
-//   const [weather, setWeather] = useState<WeatherData | null>(null);
-//   const [fishingZones, setFishingZones] = useState<FishingZone[]>([]);
-
-//   const fetchData = async () => {
-//     try {
-//       const response = await fetch(`http://localhost:8000/get_fishing_data?location=${location}`);
-//       const data = await response.json();
-//       setWeather(data.weather);
-//       setFishingZones(data.fishing_zones);
-//       setShowZones(true);
-      
-//       if (data.border_warning) {
-//         setShowBorderAlert(true);
-//         setBorderDistance(data.border_distance);
-//       } else {
-//         setShowBorderAlert(false);
-//       }
-//     } catch (error) {
-//       console.error('Error fetching data:', error);
-//     }
-//   };
-
-//   const handleSearch = (e: React.FormEvent) => {
-//     e.preventDefault();
-//     if (location) fetchData();
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <header className="bg-blue-900 text-white p-4">
-//         <h1 className="text-2xl font-bold text-center">SmartSea Tamil Nadu</h1>
-//         <p className="text-center">Fishing Zone Information System</p>
-//       </header>
-
-//       {showBorderAlert && (
-//         <div className="border-l-4 p-4 m-4 bg-red-100 border-red-500">
-//           <div className="flex items-center gap-2">
-//             <AlertTriangle className="text-red-500" size={24} />
-//             <div>
-//               <p className="font-bold">WARNING: You are {borderDistance} km from international waters. Stay cautious!</p>
-//               <div className="mt-2 flex items-center gap-2">
-//                 <Navigation className="text-blue-500" />
-//                 <p>Distance to border: {borderDistance} km</p>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       {weather && (
-//         <div className="bg-white p-4 m-4 rounded shadow">
-//           <h2 className="text-xl mb-3 flex items-center gap-2">
-//             <Sun className="text-yellow-500" />
-//             Current Weather
-//           </h2>
-//           <div className="grid grid-cols-3 gap-4 text-center">
-//             <div><p className="font-bold">{weather.temperature}°C</p><p>Temperature</p></div>
-//             <div><p className="font-bold">{weather.conditions}</p><p>Conditions</p></div>
-//             <div><p className="font-bold">{weather.windSpeed} km/h</p><p>Wind Speed</p></div>
-//           </div>
-//         </div>
-//       )}
-
-//       <div className="p-4">
-//         <form onSubmit={handleSearch} className="flex gap-2">
-//           <input
-//             type="text"
-//             value={location}
-//             onChange={(e) => setLocation(e.target.value)}
-//             placeholder="Enter your port location"
-//             className="flex-1 p-2 border rounded"
-//           />
-//           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Find Zones</button>
-//         </form>
-//       </div>
-
-//       {showZones && (
-//         <div className="p-4">
-//           <h2 className="text-xl mb-3 flex items-center gap-2">
-//             <MapPin />
-//             Recommended Fishing Zones
-//           </h2>
-//           <div className="grid gap-4">
-//             {fishingZones.map((zone, index) => (
-//               <div key={index} className="bg-white p-4 rounded shadow">
-//                 <h3 className="font-bold">{zone.name}</h3>
-//                 <p>Distance: {zone.distance}</p>
-//                 <p>Conditions: {zone.conditions}</p>
-//                 {zone.borderProximity <= 8 && (
-//                   <p className={`mt-2 ${zone.borderProximity <= 5 ? 'text-red-600' : 'text-orange-600'}`}>
-//                     ⚠️ {zone.borderProximity}km from international border
-//                   </p>
-//                 )}
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-
-//       <div className="bg-yellow-50 p-4 m-4 border-l-4 border-yellow-400">
-//         <p className="font-bold">Current Ban Period Notice:</p>
-//         <p>Annual fishing ban period: April 15 - June 15</p>
-//       </div>
-      
-//       {/* Add ChatComponent here */}
-//       <ChatComponent />
-//     </div>
-//   );
-// }
-
-// export default App;
-
 import React, { useState, useEffect } from 'react';
 import { MapPin, AlertTriangle, Sun, Navigation, CloudRain, Compass, Wind } from 'lucide-react';
 import ChatComponent from './ChatComponent';
@@ -198,7 +63,7 @@ function App() {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:8000/get_fishing_data?location=${location}`);
+      const response = await fetch(`https://smartsea.onrender.com/get_fishing_data?location=${location}`);
       const data = await response.json();
       
       setWeather(data.weather);
@@ -221,7 +86,7 @@ function App() {
       }
 
       // Fetch additional weather data
-      const weatherResponse = await fetch(`http://localhost:8000/weather/${location}`);
+      const weatherResponse = await fetch(`https://smartsea.onrender.com/weather/${location}`);
       const weatherData = await weatherResponse.json();
       
       if (weatherData.current) setWeather(weatherData.current);
